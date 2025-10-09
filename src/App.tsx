@@ -16,15 +16,16 @@ function App() {
 
     try {
       const res = await fetch(
-          "https://api.open-meteo.com/v1/forecast?latitude=44.6427&longitude=-63.5769&current=temperature_2m,wind_speed_10m"
+          "https://marine-api.open-meteo.com/v1/marine?latitude=44.65&longitude=-63.57&hourly=wave_height,wind_speed,sea_surface_temperature"
       );
 
       const data = await res.json();
       const index = data.hourly.time.length - 1;
 
       setWeather({
-        temperature: data.current.temperature_2m,
-        windSpeed: data.current.wind_speed_10m,
+        temperature: data.hourly.sea_surface_temperature[index],
+        windSpeed: data.hourly.wind_speed[index],
+        waveHeight: data.hourly.wave_height[index],
       });
 
     } catch (err) {
