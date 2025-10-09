@@ -41,7 +41,7 @@ function App() {
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>🌊 Marine Weather Dashboard</h1>
+      <h1>🌊 Marine Weather Dashboard!</h1>
 
       {loading && <p>Loading weather data...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
