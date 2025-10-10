@@ -68,7 +68,7 @@ function App() {
               <thead style={{ 
                 position: "sticky", 
                 top: 0, 
-                backgroundColor: "#f0f0f0",
+                backgroundColor: "#253f49ff",
                 zIndex: 1
               }}>
                 <tr>
