@@ -26,7 +26,7 @@ function App() {
       }
 
       setWeather({
-        times: data.hourly.tiime,
+        times: data.hourly.time,
         temperatures: data.hourly.sea_surface_temperature,
         waveHeights: data.hourly.wave_height,
       });
