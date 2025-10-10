@@ -16,7 +16,7 @@ function App() {
 
     try {
       const res = await fetch(
-          "https://marine-api.open-meteo.com/v1/marine?latitude=44.65&longitude=-63.57&hourly=wave_height,wind_speed,sea_surface_temperature"
+          "https://marine-api.open-meteo.com/v1/marine?latitude=44.65&longitude=-63.57&hourly=wave_height,sea_surface_temperature"
       );
 
       const data = await res.json();
@@ -24,7 +24,6 @@ function App() {
 
       setWeather({
         temperature: data.hourly.sea_surface_temperature[index],
-        windSpeed: data.hourly.wind_speed[index],
         waveHeight: data.hourly.wave_height[index],
       });
 
