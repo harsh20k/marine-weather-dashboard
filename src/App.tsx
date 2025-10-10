@@ -45,14 +45,14 @@ function App() {
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px", padding: "20px" }}>
-      <h1>🌊 Marine Weather Dashboard</h1>
+      <h1>🌊 Marine Weather Data Dashboard</h1>
 
       {loading && <p>Loading weather data...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       {weatherData && (
         <div style={{ marginTop: "20px" }}>
-          <p>📍 Halifax, Nova Scotia</p>
+          <h2>📍 Halifax, Nova Scotia</h2>
           <p>Total readings: {weatherData.times.length} hours</p>
 
           <div style={{ 
