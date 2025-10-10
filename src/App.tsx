@@ -5,9 +5,9 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [weather, setWeather] = useState<{
-    temperature?: number;
-    windSpeed?: number;
-    waveHeight?: number;
+    times: string[];
+    temperatures: number[];
+    waveHeights: number[];
   } | null>(null);
 
   const fetchWeather = async () => {
@@ -20,14 +20,19 @@ function App() {
       );
 
       const data = await res.json();
-      const index = data.hourly.time.length - 1;
+
+      if (!data.hourly || !data.hourly.time || data.hourly.time.length === 0) {
+        throw new Error("Invalid data structure received");
+      }
 
       setWeather({
-        temperature: data.hourly.sea_surface_temperature[index],
-        waveHeight: data.hourly.wave_height[index],
+        times: data.hourly.tiime,
+        temperatures: data.hourly.sea_surface_temperature,
+        waveHeights: data.hourly.wave_height,
       });
 
     } catch (err) {
+      console.error("Fetch error:", err);
       setError("Failed to fetch data");
     } finally {
       setLoading(false);
@@ -39,18 +44,56 @@ function App() {
   }, []);
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>🌊 Marine Weather Dashboard!</h1>
+    <div style={{ textAlign: "center", marginTop: "50px", padding: "20px" }}>
+      <h1>🌊 Marine Weather Dashboard</h1>
 
       {loading && <p>Loading weather data...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {weather && (
+      {weatherData && (
         <div style={{ marginTop: "20px" }}>
           <p>📍 Halifax, Nova Scotia</p>
-          <p>🌡️ Temperature: {weather.temperature} °C</p>
-          <p>🌬️ Wind Speed: {weather.windSpeed} m/s</p>
-          <p>🌊 Wave Height: {weather.waveHeight} m</p>
+          <p>Total readings: {weatherData.times.length} hours</p>
+
+          <div style={{ 
+            maxHeight: "500px", 
+            overflowY: "scroll", 
+            marginTop: "20px",
+            border: "1px solid #ccc"
+          }}>
+            <table style={{ 
+              width: "100%", 
+              borderCollapse: "collapse"
+            }}>
+              <thead style={{ 
+                position: "sticky", 
+                top: 0, 
+                backgroundColor: "#f0f0f0",
+                zIndex: 1
+              }}>
+                <tr>
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>Time</th>
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>🌡️ Temperature (°C)</th>
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>🌊 Wave Height (m)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {weatherData.times.map((time, index) => (
+                  <tr key={index}>
+                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>
+                      {new Date(time).toLocaleString()}
+                    </td>
+                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>
+                      {weatherData.temperatures[index]}
+                    </td>
+                    <td style={{ padding: "8px", border: "1px solid #ddd" }}>
+                      {weatherData.waveHeights[index]}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
