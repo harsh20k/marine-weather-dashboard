@@ -4,7 +4,7 @@ import "./App.css";
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [weather, setWeather] = useState<{
+  const [weatherData, setWeather] = useState<{
     times: string[];
     temperatures: number[];
     waveHeights: number[];
